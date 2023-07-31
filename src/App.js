@@ -1,10 +1,13 @@
+import React from "react";
+import { Header } from "./components/header/Header";
+
 function App() {
   return (
     <div>
       <Header />
-      <MealsSummary />
+      {/* <MealsSummary />
       <Meals />
-      <MealItem />
+      <MealItem /> */}
     </div>
   );
 }
