@@ -1,10 +1,19 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { styled } from 'styled-components'
 import { MealItemForm } from './MealItemForm'
+import { CartContext } from '../../../store/cart-context'
 
 
 export const MealItem = ({ title, description, price, id }) => {
-
+	const { onAddMeal } = useContext(CartContext)
+	const addMealToCartHandler = (amount) => {
+		onAddMeal({
+			title,
+			price,
+			amount,
+			id,
+		})
+	}
 	return (
 		<ListItem>
 			<Content>
@@ -12,7 +21,7 @@ export const MealItem = ({ title, description, price, id }) => {
 				<p>{description}</p>
 				<span>${price}</span>
 			</Content>
-			<MealItemForm inputId={id}  />
+			<MealItemForm inputId={id} onAddMeal={addMealToCartHandler} />
 		</ListItem>
 	)
 }

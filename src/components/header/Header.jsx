@@ -1,5 +1,4 @@
 import React from 'react'
-import { BasketIcon } from '../assets'
 import { styled } from 'styled-components'
 import { HeaderCartButton } from './HeaderCartButton'
 
