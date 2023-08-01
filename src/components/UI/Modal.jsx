@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { styled } from "styled-components";
 
 const Backdrop = ({ onClose }) => {
-  return <BackdropContainer></BackdropContainer>;
+  return <BackdropContainer onClick={onClose}></BackdropContainer>;
 };
 const BACKDROP_ELEMENT = document.getElementById("backdrop");
 const MODAL_ELEMENT = document.getElementById("modal-overlay");

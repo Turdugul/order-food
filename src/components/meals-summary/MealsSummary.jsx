@@ -1,5 +1,5 @@
 import React from 'react'
-import { MealsBannerImage } from '../assets'
+import { MealsBannerImage } from '../../assets'
 import { styled } from 'styled-components' 
 
 export const MealsSummary = () => {
