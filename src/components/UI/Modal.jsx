@@ -1,14 +1,19 @@
 import React from "react";
+
 import { createPortal } from "react-dom";
 import { styled } from "styled-components";
 
-const Backdrop = ({ onClose }) => {
+
+
+const Backdrop = ({onClose}) => {
+ 
   return <BackdropContainer onClick={onClose}></BackdropContainer>;
 };
 const BACKDROP_ELEMENT = document.getElementById("backdrop");
 const MODAL_ELEMENT = document.getElementById("modal-overlay");
 
 export const Modal = ({ children, onClose }) => {
+
   return (
     <>
       {createPortal(<Backdrop onClose={onClose} />, BACKDROP_ELEMENT)}
@@ -29,7 +34,6 @@ const BackdropContainer = styled.div`
 `;
 
 const ModalContainer = styled.div`
-background-color: RED;
   position: fixed;
   top: 20vh;
   left: 5%;

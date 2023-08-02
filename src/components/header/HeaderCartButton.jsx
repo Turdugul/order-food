@@ -1,17 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from "react";
 import { BasketIcon } from "../../assets";
 import { keyframes, styled } from "styled-components";
-import { ModalContext } from '../../store/modal-context'
-import { CartContext } from '../../store/cart-context'
+import { ModalContext } from "../../store/modal-context";
+import { CartContext } from "../../store/cart-context";
 
 export const HeaderCartButton = () => {
   const { onOpen } = useContext(ModalContext);
 
   const { addedMeals } = useContext(CartContext);
 
-
   const [bump, setBump] = useState("");
-
 
   const addedMealsCount = addedMeals.reduce((acc, meal) => {
     return acc + meal.amount;
@@ -56,24 +54,21 @@ const StyledButton = styled.button`
   justify-content: space-around;
   align-items: center;
 
- 
+  &.bump {
+    animation: BUMP 300ms ease-out;
+  }
 
-&.bump {
-		animation: BUMP 300ms ease-out;
-	}
-
-	&:hover > ${Badge} {
-		background-color: #671f03;
-		animation: BUMP 300ms ease-out;
-	}
-	& > svg {
-		margin-right: 0.5rem;
-	}
-	& > .bump {
-		font-size: 1rem;
-		font-weight: 600;
-	}
-
+  &:hover > ${Badge} {
+    background-color: #671f03;
+    animation: BUMP 300ms ease-out;
+  }
+  & > svg {
+    margin-right: 0.5rem;
+  }
+  & > .bump {
+    font-size: 1rem;
+    font-weight: 600;
+  }
 
   @keyframes BUMP {
     0% {
