@@ -5,26 +5,31 @@ import { styled } from "styled-components";
 import TotalAmount from "./TotalAmount";
 import { Button } from "../UI/Button";
 import { CartContext } from '../../store/cart-context'
-import { ModalContext } from '../../store/modal-context'
-export const Cart = () => {
-    const { addedMeals } = useContext(CartContext)
-    const { state} = useContext(ModalContext);
+import { ModalContext } from "../../store/modal-context";
+
+
+export const Cart = ({onClose}) => {
+  const { addedMeals, totalAmount } = useContext(CartContext)
+
+  
   return (
-    <Modal onClose={state}>
+    <Modal onClose={onClose}>
       <Content>
         <CartList>
+        <TotalAmount totalAmount={totalAmount} />
         {addedMeals.map((meal) => (
 						<CartItem
 							title={meal.title}
 							amount={meal.amount}
 							price={meal.price}
 							key={meal.id}
+              id={meal.id}
 						/>
 					))}
         </CartList>
-        <TotalAmount />
+        <TotalAmount totalamount={totalAmount} />
         <ActionsContainer>
-          <Button variant="outlined" onClick={state}>
+          <Button variant="outlined" onClick={onClose}>
             Close
           </Button>
           <Button onClick={() => console.log("ORDER")}>Order</Button>

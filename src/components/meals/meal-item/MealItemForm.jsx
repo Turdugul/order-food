@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { styled } from 'styled-components'
 import { Button } from '../../UI/Button'
-import { PlusIcon } from '../../../assets/'
+import { PlusLightIcon } from '../../../assets'
 
 export const MealItemForm = ({ inputId, onAddMeal }) => {
     
@@ -29,7 +29,7 @@ export const MealItemForm = ({ inputId, onAddMeal }) => {
 					onChange={amountChangeHnadler}
 				/>
 			</InputWrapper>
-			<Button IconComponent={PlusIcon} size='small'>
+			<Button IconComponent={PlusLightIcon} size='small'>
 				Add
 			</Button>
 		</FormContainer>

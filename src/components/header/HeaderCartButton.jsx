@@ -6,7 +6,6 @@ import { CartContext } from "../../store/cart-context";
 
 export const HeaderCartButton = () => {
   const { onOpen } = useContext(ModalContext);
-
   const { addedMeals } = useContext(CartContext);
 
   const [bump, setBump] = useState("");
