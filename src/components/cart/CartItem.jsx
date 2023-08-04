@@ -1,14 +1,17 @@
-import React from "react";
+import React, {useContext} from "react";
 import { IconButton } from "../UI/IconButton";
 import { MinusIcon, PlusIcon } from "../../assets";
 import { styled } from "styled-components";
-import TotalAmount from "./TotalAmount";
+import { CartContext } from "../../store/cart-context";
 
 export const CartItem = ({
-  title = "about item",
-  price = "22.99",
-  amount = "5",
+  title = "Название блюда",
+  price = 22.99,
+  amount = 5,
+  id,
 }) => {
+  const { onIncreaseMealAmount, onDecreaseMealAmount } =
+    useContext(CartContext);
   return (
     <ListItem>
       <Content>
@@ -21,18 +24,18 @@ export const CartItem = ({
       </Content>
 
       <ActionsContainer>
-        <IconButton Icon={MinusIcon} />
-        <IconButton Icon={PlusIcon} />
+        <IconButton Icon={MinusIcon} onClick={() => onDecreaseMealAmount(id)} />
+        <IconButton Icon={PlusIcon} onClick={() => onIncreaseMealAmount(id)} />
       </ActionsContainer>
     </ListItem>
   );
 };
 
-const ActionsContainer = styled('div')`
-	display: flex;
-	align-items: center;
-	gap: 14px;
-`
+const ActionsContainer = styled("div")`
+  display: flex;
+  align-items: center;
+  gap: 14px;
+`;
 const PriceContainer = styled("div")`
   display: flex;
   align-items: center;
