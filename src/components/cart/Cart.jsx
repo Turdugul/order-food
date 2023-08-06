@@ -44,7 +44,6 @@ export const Cart = ({ onClose }) => {
             UserID: "Gul",
             "Content-Type": "application/json",
           },
-
           body: JSON.stringify({ amount: amount + 1 }),
         }
       );
