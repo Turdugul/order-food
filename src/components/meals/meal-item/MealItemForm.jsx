@@ -64,5 +64,6 @@ const InputWrapper = styled('div')`
 		font-size: 1rem;
 		font-weight: 600;
 		font-family: inherit;
+		min-width: 4rem;
 	}
 `

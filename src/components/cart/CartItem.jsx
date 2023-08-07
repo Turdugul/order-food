@@ -7,11 +7,16 @@ import { CartContext } from "../../store/cart-context";
 export const CartItem = ({
   title = "Название блюда",
   price = 22.99,
-  amount = 5,
+  amount = 1,
   id,
+  onIncreaseMealAmount,
+  onDecreaseMealAmount
 }) => {
-  const { onIncreaseMealAmount, onDecreaseMealAmount } =
-    useContext(CartContext);
+
+  // const { onIncreaseMealAmount, onDecreaseMealAmount } =
+  //   useContext(CartContext);
+
+
   return (
     <ListItem>
       <Content>
@@ -24,8 +29,8 @@ export const CartItem = ({
       </Content>
 
       <ActionsContainer>
-        <IconButton Icon={MinusIcon} onClick={() => onDecreaseMealAmount(id)} />
-        <IconButton Icon={PlusIcon} onClick={() => onIncreaseMealAmount(id)} />
+        <IconButton Icon={MinusIcon} onClick={() => onDecreaseMealAmount(id, amount)} />
+        <IconButton Icon={PlusIcon} onClick={() => onIncreaseMealAmount(id, amount)} />
       </ActionsContainer>
     </ListItem>
   );

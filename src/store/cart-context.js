@@ -2,7 +2,6 @@ import React, { useReducer} from 'react'
 
 export const CartContext = React.createContext({
 	addedMeals: [],
-	totalAmount: 0,
 	onAddMeal: () => {},
 	onIncreaseMealAmount: ()=>{},
 	onDecreaseMealAmount: ()=>{},
@@ -103,10 +102,7 @@ export const CartProvider = ({ children }) => {
 	const [cartState, dispatch] = useReducer(reducer, { addedMeals: [] });
 	const { addedMeals = [] } = cartState;
 
-	const totalAmount = addedMeals.reduce((acc, meal) =>{
-		return acc + meal.price * meal.amount
-	}, 0)
-	console.log(totalAmount);
+	
 
 	const addMealHandler = (newMeal) => {
 		dispatch({ type: ADD_MEAL_TYPE, payload: newMeal });
@@ -127,7 +123,7 @@ export const CartProvider = ({ children }) => {
 			value={{
 				addedMeals,
 				onAddMeal: addMealHandler,
-				totalAmount,
+				
 				onIncreaseMealAmount: increaseMealAmountHandler,
 				onDecreaseMealAmount: decreaseMealAmountHandler,
 			}}
