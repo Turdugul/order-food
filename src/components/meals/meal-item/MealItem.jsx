@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { styled } from "styled-components";
 import { MealItemForm } from "./MealItemForm";
-import { CartContext } from "../../../store/cart-context";
+
 
 export const MealItem = ({ title, description, price, id }) => {
-  const { onAddMeal } = useContext(CartContext);
+//   const { onAddMeal } = useContext(CartContext);
 
   const addMealToCartHandler = async (amount) => {
     try {

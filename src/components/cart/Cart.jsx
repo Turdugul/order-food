@@ -4,8 +4,7 @@ import { CartItem } from "./CartItem";
 import { styled } from "styled-components";
 import TotalAmount from "./TotalAmount";
 import { Button } from "../UI/Button";
-import { CartContext } from '../../store/cart-context'
-import { ModalContext } from "../../store/modal-context";
+
 
 const fetchCartMeals = async () => {
   try {

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { BasketIcon } from "../../assets";
-import { keyframes, styled } from "styled-components";
+import { styled } from "styled-components";
 import { ModalContext } from "../../store/modal-context";
 import { CartContext } from "../../store/cart-context";
 
