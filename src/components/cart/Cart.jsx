@@ -1,124 +1,68 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Modal } from "../UI/Modal";
 import { CartItem } from "./CartItem";
 import { styled } from "styled-components";
 import TotalAmount from "./TotalAmount";
 import { Button } from "../UI/Button";
+import { fetchRequest } from "../../api/fetchRequest";
+import { useDispatch, useSelector } from "react-redux";
+import { getCartMealsThunk, increaseCartMealsAmountThunk } from "../../redux/actions/cart-actions";
+import { onCloseModal } from "../../redux/actions/modal-actions"; 
 
+export const Cart = () => {
+  const dispatch = useDispatch();
+  const { addedMeals, isLoading, error, totalPrice} = useSelector((state) => state.cart);
 
-const fetchCartMeals = async () => {
-  try {
-    const response = await fetch(
-      `http://ec2-3-76-44-71.eu-central-1.compute.amazonaws.com:5500/api/v1/basket`,
-      {
-        headers: {
-          UserID: "Gul",
-        },
-      }
-    );
-
-    const result = await response.json();
-    return result.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const Cart = ({ onClose }) => {
-  // const { addedMeals, totalAmount } = useContext(CartContext);
-
-  const [cartMeals, setCartMeals] = useState([]);
+ 
+  // const { onCloseModal } = useSelector((state) => state.modal);
 
   useEffect(() => {
-    fetchCartMeals().then((data) => setCartMeals(data.items));
-  }, []);
+    dispatch(getCartMealsThunk());
+  }, [dispatch]);
+
 
   const increaseAmountHandler = async (id, amount) => {
-    try {
-      const response = await fetch(
-        `http://ec2-3-76-44-71.eu-central-1.compute.amazonaws.com:5500/api/v1/basketItem/${id}/update`,
-        {
-          method: "PUT",
-          headers: {
-            UserID: "Gul",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ amount: amount + 1 }),
-        }
-      );
-      const result = await response.json();
-      console.log(result, "+");
-      fetchCartMeals().then((data) => setCartMeals(data.items));
-    } catch (error) {
-      console.log(error);
-    }
+   dispatch(increaseCartMealsAmountThunk(id,amount))
   };
+
   const decreaseAmountHandler = async (id, amount) => {
     if (amount === 1) {
-      //delete
-      try {
-        await fetch(
-          `http://ec2-3-76-44-71.eu-central-1.compute.amazonaws.com:5500/api/v1/basketItem/${id}/delete`,
-          {
-            method: "DELETE",
-            headers: {
-              UserID: "Gul",
-              "Content-Type": "application/json",
-            },
-          }
-        );
-      } catch (error) {
-        console.log(error);
-      }
-      fetchCartMeals().then((data) => setCartMeals(data.items));
+      fetchRequest(`/basketItem/${id}/delete`, {
+        method: "DELETE",
+      });
     } else {
-      //update
-      try {
-        const response = await fetch(
-          `http://ec2-3-76-44-71.eu-central-1.compute.amazonaws.com:5500/api/v1/basketItem/${id}/update`,
-          {
-            method: "PUT",
-            headers: {
-              UserID: "Gul",
-              "Content-Type": "application/json",
-            },
-
-            body: JSON.stringify({ amount: amount - 1 }),
-          }
-        );
-        const result = await response.json();
-        console.log(result, "-");
-        fetchCartMeals().then((data) => setCartMeals(data.items));
-      } catch (error) {
-        console.log(error);
-      }
+      fetchRequest(`/basketItem/${id}/update`, {
+        method: "PUT",
+        body: { amount: amount - 1 },
+      });
     }
   };
-
-  const totalAmount = cartMeals.reduce((acc, meal) => {
-    return acc + meal.price * meal.amount;
-  }, 0);
-  console.log(totalAmount);
-
+ 
+ 
   return (
-    <Modal onClose={onClose}>
+    <Modal onClose={()=>dispatch(onCloseModal())}>
       <Content>
-        <CartList>
-          {cartMeals.map((meal) => (
-            <CartItem
-              title={meal.title}
-              amount={meal.amount}
-              price={meal.price}
-              key={meal.id}
-              id={meal._id}
-              onIncreaseMealAmount={increaseAmountHandler}
-              onDecreaseMealAmount={decreaseAmountHandler}
-            />
-          ))}
-        </CartList>
-        <TotalAmount totalamount={totalAmount} />
+        {isLoading && <h4>...Isloading</h4>}
+        {!isLoading && (
+          <CartList>
+            {addedMeals.map((meal) => (
+              <CartItem
+                title={meal.title}
+                amount={meal.amount}
+                price={meal.price}
+                key={meal.id}
+                id={meal._id}
+                onIncreaseMealAmount={increaseAmountHandler}
+                onDecreaseMealAmount={decreaseAmountHandler}
+              />
+            ))}
+          </CartList>
+        )}
+        {error && <h4>{error.message}</h4>}
+
+        <TotalAmount totalamount={totalPrice} />
         <ActionsContainer>
-          <Button variant="outlined" onClick={onClose}>
+          <Button variant="outlined" onClick={()=>dispatch(onCloseModal())}>
             Close
           </Button>
           <Button onClick={() => console.log("ORDER")}>Order</Button>
@@ -127,6 +71,7 @@ export const Cart = ({ onClose }) => {
     </Modal>
   );
 };
+
 const ActionsContainer = styled("div")`
   display: flex;
   justify-content: flex-end;
@@ -145,4 +90,3 @@ const CartList = styled("ul")`
   max-height: 360px;
   overflow-y: scroll;
 `;
- 

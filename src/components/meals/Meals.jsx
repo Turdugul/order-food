@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { MealItem } from "./meal-item/MealItem";
+import { fetchRequest } from "../../api/fetchRequest";
+import { Button } from "../UI/Button";
+import { useSortData } from "../../hooks/useSortData";
 
 // const DUMMY_MEALS = [
 //   {
@@ -31,32 +34,20 @@ import { MealItem } from "./meal-item/MealItem";
 
 export const Meals = () => {
   const [meals, setMeals] = useState([]);
-
-
+  const [sortedMeals, sortMealsHandler] = useSortData([...meals])
+console.log(sortedMeals, 'sortedmeals');
   useEffect(() => {
-    const fetchMeals = async () => {
-      try {
-        const response = await fetch(
-          `http://ec2-3-76-44-71.eu-central-1.compute.amazonaws.com:5500/api/v1/foods`,
-          {
-            headers: {
-              UserID: "Gul",
-            },
-          }
-        );
-        const result = await response.json();
-		setMeals(result.data)
-        console.log(result.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchMeals();
+    fetchRequest(`foods`).then((result) => setMeals(result.data));
   }, []);
+const renderedMeals = sortedMeals.length ? sortedMeals : meals
   return (
     <Container>
+      <SortContainer>
+        <Button onClick={()=> sortMealsHandler('ASC')}>ASC</Button>
+        <Button onClick={()=> sortMealsHandler('DESC')}>DESC</Button>
+      </SortContainer>
       <ul>
-        {meals.map((meal) => {
+        {renderedMeals.map((meal) => {
           return (
             <MealItem
               key={meal._id}
@@ -72,6 +63,13 @@ export const Meals = () => {
   );
 };
 
+const SortContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem; 
+`;
 const Container = styled("section")`
   padding: 40px;
   background-color: #ffffff;

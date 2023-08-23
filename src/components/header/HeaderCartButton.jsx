@@ -3,10 +3,18 @@ import { BasketIcon } from "../../assets";
 import { styled } from "styled-components";
 import { ModalContext } from "../../store/modal-context";
 import { CartContext } from "../../store/cart-context";
+import { useDispatch, useSelector } from "react-redux";
+import { onOpenModal } from "../../redux/actions/modal-actions";
 
 export const HeaderCartButton = () => {
-  const { onOpen } = useContext(ModalContext);
+
+
+  // const { onOpen } = useContext(ModalContext);
+
   const { addedMeals } = useContext(CartContext);
+
+  const dispatch = useDispatch();
+  const { isModalOpen} = useSelector((state) => state.modal);
 
   const [bump, setBump] = useState("");
 
@@ -22,7 +30,7 @@ export const HeaderCartButton = () => {
   }, [addedMealsCount]);
 
   return (
-    <StyledButton onClick={onOpen} className={bump}>
+    <StyledButton onClick={()=> dispatch(onOpenModal())} className={bump}>
       <BasketIcon />
       <span className="bump">Your cart</span>
       <Badge>{addedMealsCount}</Badge>
