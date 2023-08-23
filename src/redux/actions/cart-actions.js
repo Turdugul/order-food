@@ -40,3 +40,24 @@ export const increaseCartMealsAmountThunk = (id, amount) => {
     }
   };
 };
+
+export const decreaseCartMealsAmountThunk = (id, amount) => {
+  return async (dispatch) => {
+    try {
+      if (amount === 1) {
+        fetchRequest(`/basketItem/${id}/delete`, {
+          method: "DELETE",
+        })
+      } else {
+      fetchRequest(`/basketItem/${id}/update`, {
+        method: "PUT",
+        body: { amount: amount - 1 },
+      }).then(() => {
+        dispatch(getCartMealsThunk());
+      });
+    }
+    } catch (error) {
+      getCartMealsFailed(error);
+    }
+  };
+};

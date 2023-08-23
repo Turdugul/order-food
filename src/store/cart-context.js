@@ -59,6 +59,8 @@ const reducer = (state, action) => {
         addedMeals: newAddedMeals,
       };
     }
+
+    
     case DECREASE_MEAL_AMOUNT_TYPE: {
       const prevMeals = state.addedMeals; ///[{}, {}]
       const mealId = action.payload; //id=1

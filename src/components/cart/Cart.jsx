@@ -6,15 +6,12 @@ import TotalAmount from "./TotalAmount";
 import { Button } from "../UI/Button";
 import { fetchRequest } from "../../api/fetchRequest";
 import { useDispatch, useSelector } from "react-redux";
-import { getCartMealsThunk, increaseCartMealsAmountThunk } from "../../redux/actions/cart-actions";
+import { getCartMealsThunk, increaseCartMealsAmountThunk, decreaseCartMealsAmountThunk } from "../../redux/actions/cart-actions";
 import { onCloseModal } from "../../redux/actions/modal-actions"; 
 
 export const Cart = () => {
   const dispatch = useDispatch();
   const { addedMeals, isLoading, error, totalPrice} = useSelector((state) => state.cart);
-
- 
-  // const { onCloseModal } = useSelector((state) => state.modal);
 
   useEffect(() => {
     dispatch(getCartMealsThunk());
@@ -26,16 +23,8 @@ export const Cart = () => {
   };
 
   const decreaseAmountHandler = async (id, amount) => {
-    if (amount === 1) {
-      fetchRequest(`/basketItem/${id}/delete`, {
-        method: "DELETE",
-      });
-    } else {
-      fetchRequest(`/basketItem/${id}/update`, {
-        method: "PUT",
-        body: { amount: amount - 1 },
-      });
-    }
+    dispatch(decreaseCartMealsAmountThunk (id,amount))
+    
   };
  
  
